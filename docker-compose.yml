@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  flask:
+    build: ./flask
+    command: ["python", "app/app.py"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./flask:/app
+    stdin_open: true
+    tty: true
+  payment:
+    build: ./paymentgateway
+    command: uvicorn payment_gateway_mocking:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./paymentgateway:/payment
